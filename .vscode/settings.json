@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "soapstub.h": "c",
+        "printlog.h": "c",
+        "print_log.h": "c"
+    }
+}

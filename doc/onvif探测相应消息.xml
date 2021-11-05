@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<s:Envelope
+    xmlns:sc="http://www.w3.org/2003/05/soap-encoding"
+    xmlns:s="http://www.w3.org/2003/05/soap-envelope"
+    xmlns:dn="http://www.onvif.org/ver10/network/wsdl"
+    xmlns:tds="http://www.onvif.org/ver10/device/wsdl"
+    xmlns:d="http://schemas.xmlsoap.org/ws/2005/04/discovery"
+    xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+    <s:Header>
+        <a:MessageID>uuid:c6f60c76-de59-40c8-9b6c-79b7822bc7ca</a:MessageID>
+        <a:To>urn:schemas-xmlsoap-org:ws:2005:04:discovery</a:To>                          <!--探测消息没有ReplyTo头块，相应消息会发送会探测消息的IP地址和端口-->
+        <a:Action>http://schemas.xmlsoap.org/ws/2005/04/discovery/ProbeMatches</a:Action>  <!--表明该消息是一个探测匹配消息-->
+        <a:RelatesTo>uuid:fc0bad56-5f5a-47f3-8ae2-c94a4e907d70</a:RelatesTo>               <!--与探测消息的MessageID一样，表明答复之前探测消息-->
+    </s:Header>
+    <s:Body>
+        <d:ProbeMatches>
+            <d:ProbeMatch>
+                <a:EndpointReference>
+                    <a:Address>uuid:a56da4cf-5741-4eaa-b509-3aba7bc5e212</a:Address>       <!--包含目标服务的稳定的、唯一的标识符，该标识符在网络接口、传输地址和IPv4/v6中是不变的-->
+                </a:EndpointReference>
+                <d:Types>dn:NetworkVideoTransmitter tds:Device</d:Types>                   <!--列出目标服务实现的类型-->
+                <d:Scopes>                                                                 <!--列出了几个管理范围-->
+                onvif://www.onvif.org/location/country/china 
+                onvif://www.onvif.org/name/Dahua 
+                onvif://www.onvif.org/hardware/IPC-HDBW5431R-Z 
+                onvif://www.onvif.org/Profile/Streaming 
+                onvif://www.onvif.org/type/Network_Video_Transmitter 
+                onvif://www.onvif.org/extension/unique_identifier/1
+                </d:Scopes>
+                <d:XAddrs>http://192.168.151.165/onvif/device_service</d:XAddrs>           <!--如果它满足稳定性和唯一性要求，它可能是一个传输URI。表示目标服务可能到达的传输地址-->
+                <d:MetadataVersion>1</d:MetadataVersion>                                   <!--目标服务的元数据版本;如下所述，如果目标服务的元数据发生更改，则此版本将增加。-->
+            </d:ProbeMatch>
+        </d:ProbeMatches>
+    </s:Body>
+</s:Envelope>
