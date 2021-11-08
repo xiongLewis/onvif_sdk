@@ -5,7 +5,7 @@
 
 #define INDENTATION         3           // 打印时每层缩进的空格数
 
-static void log_val(const char *prestr, enum LOG_TYPE type, const void *val)
+void log_val(const char *prestr, enum LOG_TYPE type, const void *val)
 {
 #ifdef WIN32
 #define POSFORMAT   "(0x%p)"

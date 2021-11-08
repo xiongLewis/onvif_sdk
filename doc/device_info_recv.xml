@@ -1,0 +1,22 @@
+HTTP/1.1 200 OK
+Content-Type: application/soap+xml; charset=utf-8
+Connection: close
+Content-Length: 628
+
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<s:Envelope
+    xmlns:sc="http://www.w3.org/2003/05/soap-encoding"
+    xmlns:s="http://www.w3.org/2003/05/soap-envelope"
+    xmlns:tds="http://www.onvif.org/ver10/device/wsdl"
+    xmlns:tt="http://www.onvif.org/ver10/schema">
+    <s:Header/>
+    <s:Body>
+        <tds:GetDeviceInformationResponse>
+            <tds:Manufacturer>Dahua</tds:Manufacturer>
+            <tds:Model>IPC-HDBW5431R-Z</tds:Model>
+            <tds:FirmwareVersion>2.460.0000000.16.R, Build Date 2018-01-11</tds:FirmwareVersion>
+            <tds:SerialNumber>3D03C36YAG00001</tds:SerialNumber>
+            <tds:HardwareId>1.00</tds:HardwareId>
+        </tds:GetDeviceInformationResponse>
+    </s:Body>
+</s:Envelope>

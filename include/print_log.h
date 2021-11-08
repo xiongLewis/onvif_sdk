@@ -26,6 +26,7 @@ enum LOG_TYPE {
 
 void log_level_fmt(unsigned int level, const char *fmt, ...);
 void log_level_val(unsigned int level, const char *prestr, enum LOG_TYPE type, const void *val);
+void log_val(const char *prestr, enum LOG_TYPE type, const void *val);
 
 #ifdef __cplusplus
 }

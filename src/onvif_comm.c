@@ -1,5 +1,5 @@
 #include "onvif_comm.h"
-
+#include "wsseapi.h"
 
 void* ONVIF_soap_malloc(struct soap *soap, unsigned int n)
 {
@@ -39,4 +39,30 @@ void ONVIF_soap_delete(struct soap *soap)
     soap_end(soap);                                                             // Clean up deserialized data (except class instances) and temporary data
     soap_done(soap);                                                            // Reset, close communications, and remove callbacks
     soap_free(soap);                                                            // Reset and deallocate the context created with soap_new or soap_copy
+}
+
+/************************************************************************
+**函数：ONVIF_SetAuthInfo
+**功能：设置认证信息
+**参数：
+        [in] soap     - soap环境变量
+        [in] username - 用户名
+        [in] password - 密码
+**返回：
+        0表明成功，非0表明失败
+**备注：
+************************************************************************/
+int ONVIF_SetAuthInfo(struct soap *soap, const char *username, const char *password)
+{
+    int result = 0;
+
+    SOAP_ASSERT(NULL != username);
+    SOAP_ASSERT(NULL != password);
+
+    result = soap_wsse_add_UsernameTokenDigest(soap, NULL, username, password);
+    SOAP_CHECK_ERROR(result, soap, "add_UsernameTokenDigest");
+
+EXIT:
+
+    return result;
 }

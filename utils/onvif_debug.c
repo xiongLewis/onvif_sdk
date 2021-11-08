@@ -79,3 +79,15 @@ void dump__wsdd__ProbeMatches(struct __wsdd__ProbeMatches *rep)
     }
     log_func_out;
 }
+
+void dump_tds__GetDeviceInformationResponse(struct _tds__GetDeviceInformationResponse *rep)
+{
+    assert(NULL != rep);
+    log_func_in;
+    log_val("Manufacturer:       ", log_str, rep->Manufacturer);
+    log_val("Model:              ", log_str, rep->Model);
+    log_val("Serial Number:      ", log_str, rep->SerialNumber);
+    log_val("Hardware Id:        ", log_str, rep->HardwareId);
+    log_val("Firmware Version:   ", log_str, rep->FirmwareVersion);
+    log_func_out;
+}
