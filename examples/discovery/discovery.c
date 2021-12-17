@@ -11,8 +11,6 @@
 #include "onvif_debug.h"
 #include "onvif_comm.h"
 
-#define SOAP_ASSERT     assert
-
 
 #define SOAP_TO         "urn:schemas-xmlsoap-org:ws:2005:04:discovery"
 #define SOAP_ACTION     "http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe"
