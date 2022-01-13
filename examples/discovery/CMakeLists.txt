@@ -49,7 +49,8 @@ SET(SRC_LIST discovery.c
 			../../soap_framework/src/dom.c
 			../../utils/print_log.c
 			../../utils/onvif_debug.c
-			../../src/onvif_comm.c)	 
+			../../src/onvif_comm.c
+			../../src/onvif_discovery.c)	 
 
 link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../lib/x86_64/)
 

@@ -91,3 +91,48 @@ void dump_tds__GetDeviceInformationResponse(struct _tds__GetDeviceInformationRes
     log_val("Firmware Version:   ", log_str, rep->FirmwareVersion);
     log_func_out;
 }
+
+void dump_tds__GetSystemDateAndTime(struct _tds__GetSystemDateAndTimeResponse *rep)
+{
+    struct tt__SystemDateTime *systm;
+
+    assert(NULL != rep);
+    assert(NULL != rep->SystemDateAndTime);
+    systm = rep->SystemDateAndTime;
+
+    log_func_in;
+    log_val("DateTimeType:      ", log_int, &systm->DateTimeType);
+    log_val("DaylightSavings:   ", log_int, &systm->DaylightSavings);
+    if (NULL == systm->TimeZone) {
+        log_val("TimeZone:          ", log_pos, systm->TimeZone);
+    } else {
+        log_val("TimeZone:          ", log_str, systm->TimeZone->TZ);
+    }
+    if (NULL == systm->UTCDateTime) {
+        log_val("UTCDateTime:       ", log_pos, systm->UTCDateTime);
+    } else {
+        assert(NULL != systm->UTCDateTime->Date);
+        assert(NULL != systm->UTCDateTime->Time);
+        log_fmt("UTCDateTime:       %04d-%02d-%02d %02d:%02d:%02d \n",
+            systm->UTCDateTime->Date->Year,
+            systm->UTCDateTime->Date->Month,
+            systm->UTCDateTime->Date->Day,
+            systm->UTCDateTime->Time->Hour,
+            systm->UTCDateTime->Time->Minute,
+            systm->UTCDateTime->Time->Second);
+    }
+    if (NULL == systm->LocalDateTime) {
+        log_val("LocalDateTime:     ", log_pos, systm->LocalDateTime);
+    } else {
+        assert(NULL != systm->LocalDateTime->Date);
+        assert(NULL != systm->LocalDateTime->Time);
+        log_fmt("LocalDateTime:     %04d-%02d-%02d %02d:%02d:%02d \n",
+            systm->LocalDateTime->Date->Year,
+            systm->LocalDateTime->Date->Month,
+            systm->LocalDateTime->Date->Day,
+            systm->LocalDateTime->Time->Hour,
+            systm->LocalDateTime->Time->Minute,
+            systm->LocalDateTime->Time->Second);
+    }
+    log_func_out;
+}

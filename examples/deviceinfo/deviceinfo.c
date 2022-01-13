@@ -11,9 +11,6 @@
 #include "onvif_debug.h"
 #include "onvif_comm.h"
 
-#define SOAP_ASSERT     assert
-#define SOAP_SOCK_TIMEOUT    (10)                                               // socket超时时间（单秒秒）
-
 #define USERNAME        "admin"                                                 // 认证信息（用户名、密码）
 #define PASSWORD        "admin123"
 

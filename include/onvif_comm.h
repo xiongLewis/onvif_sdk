@@ -8,12 +8,26 @@
 #include "soapH.h"
 #include "stdsoap2.h"
 #include "soapStub.h"
+#include "onvif_debug.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#ifndef DIM
+#define DIM(array)  (sizeof(array) / sizeof(array[0]))
+#endif
+
+#ifndef max
+#define max(a,b)    (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifndef min
+#define min(a,b)    (((a) < (b)) ? (a) : (b))
+#endif
+
 #define SOAP_ASSERT     assert
+#define SOAP_SOCK_TIMEOUT    (10)                                               // socket超时时间（单秒秒）
 
 #define SOAP_CHECK_ERROR(result, soap, str) \
     do { \

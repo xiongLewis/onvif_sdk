@@ -118,8 +118,8 @@ extern "C" {
 
 #if !(defined(VMS) || defined(__VMS)) /* VMS uses logical names instead */
 #if defined(HEADER_CRYPTLIB_H) && !defined(OPENSSLDIR)
-#define ENGINESDIR "/usr/local/ssl/lib/engines"
-#define OPENSSLDIR "/usr/local/ssl"
+#define ENGINESDIR "/home/xiongguhui/ff_code/onvif_project/third_party/openssl-1.0.2t/../x86_64/lib/engines"
+#define OPENSSLDIR "/home/xiongguhui/ff_code/onvif_project/third_party/openssl-1.0.2t/../x86_64/ssl"
 #endif
 #endif
 
