@@ -142,7 +142,7 @@ int ONVIF_SetSystemDateAndTime(const char *DeviceXAddr)
 
     req.TimeZone->TZ              = TZ;                                         // 设置本地时区（IPC的OSD显示的时间就是本地时间）
     req.UTCDateTime->Date->Year   = tm.tm_year + 1900;                          // 设置UTC时间（注意不是本地时间）
-    req.UTCDateTime->Date->Month  = tm.tm_mon;
+    req.UTCDateTime->Date->Month  = tm.tm_mon + 1;
     req.UTCDateTime->Date->Day    = tm.tm_mday;
     req.UTCDateTime->Time->Hour   = tm.tm_hour;
     req.UTCDateTime->Time->Minute = tm.tm_min;
