@@ -40,7 +40,7 @@ int ONVIF_GetCapabilities(const char *DeviceXAddr, struct tagCapabilities *capa,
 int ONVIF_GetProfiles(const char *MediaXAddr, struct tagProfile **profiles, const char *username, const char *password);
 int ONVIF_ReleaseProfiles(struct tagProfile *profiles);
 int ONVIF_GetStreamUri(const char *MediaXAddr, char *ProfileToken, char *uri, unsigned int sizeuri, const char *username, const char *password);
-
+int ONVIF_GetSnapshotUri(const char *MediaXAddr, char *ProfileToken, char *uri, unsigned int sizeuri, const char *username, const char *password);
 #ifdef __cplusplus
 }
 #endif

@@ -344,3 +344,20 @@ void dump_trt__GetStreamUriResponse(struct _trt__GetStreamUriResponse *rep)
     }
     log_func_out;
 }
+
+void dump_trt__GetSnapshotUriResponse(struct _trt__GetSnapshotUriResponse *rep)
+{
+    assert(NULL != rep);
+
+    log_func_in;
+
+    log_level_val(0, "MediaUri: ",                log_pos,    rep->MediaUri);
+    if (NULL != rep->MediaUri) {
+        log_level_val(1, "Uri: ",                 log_str,    rep->MediaUri->Uri);
+        log_level_val(1, "InvalidAfterConnect: ", log_bool,  &rep->MediaUri->InvalidAfterConnect);
+        log_level_val(1, "InvalidAfterReboot: ",  log_bool,  &rep->MediaUri->InvalidAfterReboot);
+        log_level_val(1, "Timeout: ",             log_int64, &rep->MediaUri->Timeout);
+    }
+
+    log_func_out;
+}

@@ -23,6 +23,7 @@ void cb_discovery(char *DeviceXAddr)
     struct tagProfile *profiles = NULL;                                         // 设备配置文件列表
     struct tagCapabilities capa;                                                // 设备能力信息
 
+    char cmd[256];
     char uri[ONVIF_ADDRESS_SIZE] = {0};                                         // 不带认证信息的URI地址
     char uri_auth[ONVIF_ADDRESS_SIZE + 50] = {0};                               // 带有认证信息的URI地址
 
@@ -31,11 +32,11 @@ void cb_discovery(char *DeviceXAddr)
     profile_cnt = ONVIF_GetProfiles(DeviceXAddr, &profiles, USERNAME, PASSWORD);                    // 获取媒体配置信息（主/辅码流配置信息）
 
     if (profile_cnt > stmno) {
-        ONVIF_GetStreamUri(capa.MediaXAddr, profiles[stmno].token, uri, sizeof(uri), USERNAME, PASSWORD); // 获取RTSP地址
+        ONVIF_GetSnapshotUri(capa.MediaXAddr, profiles[stmno].token, uri, sizeof(uri), USERNAME, PASSWORD); // 获取图像抓拍URI
 
         ONVIF_MakeUriWithAuth(uri, USERNAME, PASSWORD, uri_auth, sizeof(uri_auth)); // 生成带认证信息的URI（有的IPC要求认证）
-        printf("%s\n\n", uri_auth);
-        //open_rtsp(uri_auth);                                                    // 读取主码流的音视频数据
+        sprintf(cmd, "wget -O out.jpeg '%s'", uri_auth);                        // 使用wget下载图片
+        system(cmd);
     }
 
     if (NULL != profiles) {
