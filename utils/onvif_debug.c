@@ -42,6 +42,14 @@ static const char *dump_enum2str_H264Profile(enum tt__H264Profile e)
     return "unknown";
 }
 
+static void log_level_struct_tt__IntRange(unsigned int level, struct tt__IntRange *range)
+{
+    if (NULL != range) {
+        log_level_val(level, "Min: ", log_int,  &range->Min);
+        log_level_val(level, "Max: ", log_int,  &range->Max);
+    }
+}
+
 void soap_perror(struct soap *soap, const char *str)
 {
     if (NULL == str) {
@@ -359,5 +367,82 @@ void dump_trt__GetSnapshotUriResponse(struct _trt__GetSnapshotUriResponse *rep)
         log_level_val(1, "Timeout: ",             log_int64, &rep->MediaUri->Timeout);
     }
 
+    log_func_out;
+}
+
+void dump_trt__GetVideoEncoderConfigurationOptionsResponse(struct _trt__GetVideoEncoderConfigurationOptionsResponse *rep)
+{
+    int i;
+    assert(NULL != rep);
+
+    log_func_in;
+
+    log_level_val(0, "Options: ",                           log_pos,    rep->Options);
+    if (NULL != rep->Options) {
+        log_level_val(1, "QualityRange: ",                  log_pos,    rep->Options->QualityRange);
+        log_level_struct_tt__IntRange(2,                                rep->Options->QualityRange);
+        log_level_val(1, "JPEG: ",                          log_pos,    rep->Options->JPEG);
+        log_level_val(1, "MPEG4: ",                         log_pos,    rep->Options->MPEG4);
+        log_level_val(1, "H264: ",                          log_pos,    rep->Options->H264);
+        if (NULL != rep->Options->H264) {
+            struct tt__H264Options *pH264 = rep->Options->H264;
+            log_level_val(2, "sizeResolutionsAvailable: ",  log_int,   &pH264->__sizeResolutionsAvailable);
+            log_level_val(2, "ResolutionsAvailable: ",      log_pos,    pH264->ResolutionsAvailable);
+            for (i = 0; i < pH264->__sizeResolutionsAvailable; i++) {
+                log_level_fmt(3, "%d * %d\n",                           pH264->ResolutionsAvailable[i].Width,
+                                                                        pH264->ResolutionsAvailable[i].Height);
+            }
+            log_level_val(2, "GovLengthRange: ",            log_pos,    pH264->GovLengthRange);
+            log_level_struct_tt__IntRange(3,                            pH264->GovLengthRange);
+            log_level_val(2, "FrameRateRange: ",            log_pos,    pH264->FrameRateRange);
+            log_level_struct_tt__IntRange(3,                            pH264->FrameRateRange);
+            log_level_val(2, "EncodingIntervalRange: ",     log_pos,    pH264->EncodingIntervalRange);
+            log_level_struct_tt__IntRange(3,                            pH264->EncodingIntervalRange);
+            log_level_val(2, "sizeH264ProfilesSupported: ", log_int,   &pH264->__sizeH264ProfilesSupported);
+            log_level_val(2, "H264ProfilesSupported: ",     log_pos,   &pH264->H264ProfilesSupported);
+            for (i = 0; i < pH264->__sizeH264ProfilesSupported; i++) {
+                log_level_fmt(3, "%s\n",                                dump_enum2str_H264Profile(pH264->H264ProfilesSupported[i]));
+            }
+        }
+        log_level_val(1, "Extension: ",                     log_pos,    rep->Options->Extension);
+    }
+
+    log_func_out;
+}
+
+static void log_level_struct_tt__VideoEncoderConfiguration(unsigned int level, struct tt__VideoEncoderConfiguration *vecfg)
+{
+    if (NULL == vecfg) {
+        return;
+    }
+
+    log_level_val(level, "Name: ",                          log_str,    vecfg->Name);
+    log_level_val(level, "UseCount: ",                      log_int,   &vecfg->UseCount);
+    log_level_val(level, "token: ",                         log_str,    vecfg->token);
+    log_level_val(level, "Encoding: ",                      log_str,    dump_enum2str_VideoEncoding(vecfg->Encoding));
+    log_level_val(level, "Resolution: ",                    log_pos,    vecfg->Resolution);
+    if (NULL != vecfg->Resolution) {
+        log_level_val(level + 1, "Width: ",                 log_int,   &vecfg->Resolution->Width);
+        log_level_val(level + 1, "Height: ",                log_int,   &vecfg->Resolution->Height);
+    }
+    log_level_val(level, "Quality: ",                       log_float, &vecfg->Quality);
+    log_level_val(level, "RateControl: ",                   log_pos,    vecfg->RateControl);
+    if (NULL !=  vecfg->RateControl) {
+        log_level_val(level + 1, "FrameRateLimit: ",        log_int,   &vecfg->RateControl->FrameRateLimit);
+        log_level_val(level + 1, "EncodingInterval: ",      log_int,   &vecfg->RateControl->EncodingInterval);
+        log_level_val(level + 1, "BitrateLimit: ",          log_int,   &vecfg->RateControl->BitrateLimit);
+    }
+    log_level_val(level, "MPEG4: ",                         log_pos,    vecfg->MPEG4);
+    log_level_val(level, "H264: ",                          log_pos,    vecfg->H264);
+    log_level_val(level, "Multicast: ",                     log_pos,    vecfg->Multicast);
+    log_level_val(level, "SessionTimeout: ",                log_int64, &vecfg->SessionTimeout);
+}
+
+void dump_trt__GetVideoEncoderConfigurationResponse(struct _trt__GetVideoEncoderConfigurationResponse *rep)
+{
+    assert(NULL != rep);
+
+    log_func_in;
+    log_level_struct_tt__VideoEncoderConfiguration(1, rep->Configuration);
     log_func_out;
 }

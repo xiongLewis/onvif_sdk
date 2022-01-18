@@ -41,6 +41,10 @@ int ONVIF_GetProfiles(const char *MediaXAddr, struct tagProfile **profiles, cons
 int ONVIF_ReleaseProfiles(struct tagProfile *profiles);
 int ONVIF_GetStreamUri(const char *MediaXAddr, char *ProfileToken, char *uri, unsigned int sizeuri, const char *username, const char *password);
 int ONVIF_GetSnapshotUri(const char *MediaXAddr, char *ProfileToken, char *uri, unsigned int sizeuri, const char *username, const char *password);
+int ONVIF_GetVideoEncoderConfigurationOptions(const char *MediaXAddr, char *ConfigurationToken, const char *username, const char *password);
+int ONVIF_GetVideoEncoderConfiguration(const char *MediaXAddr, char *ConfigurationToken, const char *username, const char *password);
+int ONVIF_SetVideoEncoderConfiguration(const char *MediaXAddr, struct tagVideoEncoderConfiguration *venc, const char *username, const char *password);
+
 #ifdef __cplusplus
 }
 #endif
