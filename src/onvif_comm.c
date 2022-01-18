@@ -66,3 +66,58 @@ EXIT:
 
     return result;
 }
+
+/************************************************************************
+**函数：ONVIF_MakeUriWithAuth
+**功能：构造带有认证信息的URI地址
+**参数：
+        [in]  src_uri       - 未带认证信息的URI地址
+        [in]  username      - 用户名
+        [in]  password      - 密码
+        [out] dest_uri      - 返回的带认证信息的URI地址
+        [in]  size_dest_uri - dest_uri缓存大小
+**返回：
+        0成功，非0失败
+**备注：
+    1). 例子：
+    无认证信息的uri：rtsp://100.100.100.140:554/av0_0
+    带认证信息的uri：rtsp://username:password@100.100.100.140:554/av0_0
+************************************************************************/
+int ONVIF_MakeUriWithAuth(char *src_uri, char *username, char *password, char *dest_uri, unsigned int size_dest_uri)
+{
+    int result = 0;
+    unsigned int needBufSize = 0;
+
+    SOAP_ASSERT(NULL != src_uri);
+    SOAP_ASSERT(NULL != username);
+    SOAP_ASSERT(NULL != password);
+    SOAP_ASSERT(NULL != dest_uri);
+    memset(dest_uri, 0x00, size_dest_uri);
+
+    needBufSize = strlen(src_uri) + strlen(username) + strlen(password) + 3;    // 检查缓存是否足够，包括‘:’和‘@’和字符串结束符
+    if (size_dest_uri < needBufSize) {
+        SOAP_DBGERR("dest uri buf size is not enough.\n");
+        result = -1;
+        goto EXIT;
+    }
+
+    if (0 == strlen(username) && 0 == strlen(password)) {                       // 生成新的uri地址
+        strcpy(dest_uri, src_uri);
+    } else {
+        char *p = strstr(src_uri, "//");
+        if (NULL == p) {
+            SOAP_DBGERR("can't found '//', src uri is: %s.\n", src_uri);
+            result = -1;
+            goto EXIT;
+        }
+        p += 2;
+
+        memcpy(dest_uri, src_uri, p - src_uri);
+        sprintf(dest_uri + strlen(dest_uri), "%s:%s@", username, password);
+        strcat(dest_uri, p);
+    }
+
+EXIT:
+
+    return result;
+}

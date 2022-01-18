@@ -1,6 +1,47 @@
 #include "onvif_debug.h"
 #include "print_log.h"
 
+static const char *dump_enum2str_OSDType(enum tt__OSDType t)
+{
+    switch(t) {
+    case tt__OSDType__Text:     return "Text";
+    case tt__OSDType__Image:    return "Image";
+    case tt__OSDType__Extended: return "Extended";
+    }
+    return "unknown";
+}
+
+static const char *dump_enum2str_VideoEncoding(enum tt__VideoEncoding e)
+{
+    switch(e) {
+    case tt__VideoEncoding__JPEG:  return "JPEG";
+    case tt__VideoEncoding__MPEG4: return "MPEG4";
+    case tt__VideoEncoding__H264:  return "H264";
+    }
+    return "unknown";
+}
+
+static const char *dump_enum2str_AudioEncoding(enum tt__AudioEncoding e)
+{
+    switch (e) {
+    case tt__AudioEncoding__G711: return "G711";
+    case tt__AudioEncoding__G726: return "G726";
+    case tt__AudioEncoding__AAC:  return "AAC";
+    }
+    return "unknown";
+}
+
+static const char *dump_enum2str_H264Profile(enum tt__H264Profile e)
+{
+    switch (e) {
+    case tt__H264Profile__Baseline: return "Baseline";
+    case tt__H264Profile__Main:     return "Main";
+    case tt__H264Profile__Extended: return "Extended";
+    case tt__H264Profile__High:     return "High";
+    }
+    return "unknown";
+}
+
 void soap_perror(struct soap *soap, const char *str)
 {
     if (NULL == str) {
@@ -133,6 +174,173 @@ void dump_tds__GetSystemDateAndTime(struct _tds__GetSystemDateAndTimeResponse *r
             systm->LocalDateTime->Time->Hour,
             systm->LocalDateTime->Time->Minute,
             systm->LocalDateTime->Time->Second);
+    }
+    log_func_out;
+}
+
+
+void dump_tds__GetCapabilitiesResponse(struct _tds__GetCapabilitiesResponse *rep)
+{
+    assert(NULL != rep);
+    log_func_in;
+    log_level_val(0, "Capabilities: ",      log_pos, rep->Capabilities);
+    if (NULL != rep->Capabilities) {
+        log_level_val(1, "Analytics: ",     log_pos, rep->Capabilities->Analytics);
+        if (NULL != rep->Capabilities->Analytics) {
+            log_level_val(2, "XAddr: ",     log_str, rep->Capabilities->Analytics->XAddr);
+        }
+
+        log_level_val(1, "Device: ",        log_pos, rep->Capabilities->Device);
+        if (NULL != rep->Capabilities->Device) {
+            log_level_val(2, "XAddr: ",     log_str, rep->Capabilities->Device->XAddr);
+        }
+
+        log_level_val(1, "Events: ",        log_pos, rep->Capabilities->Events);
+        if (NULL != rep->Capabilities->Events) {
+            log_level_val(2, "XAddr: ",     log_str, rep->Capabilities->Events->XAddr);
+        }
+
+        log_level_val(1, "Imaging: ",       log_pos, rep->Capabilities->Imaging);
+        if (NULL != rep->Capabilities->Imaging) {
+            log_level_val(2, "XAddr: ",     log_str, rep->Capabilities->Imaging->XAddr);
+        }
+
+        log_level_val(1, "Media: ",         log_pos, rep->Capabilities->Media);
+        if (NULL != rep->Capabilities->Media) {
+            log_level_val(2, "XAddr: ",     log_str, rep->Capabilities->Media->XAddr);
+        }
+
+        log_level_val(1, "PTZ: ",           log_pos, rep->Capabilities->PTZ);
+        if (NULL != rep->Capabilities->PTZ) {
+            log_level_val(2, "XAddr: ",     log_str, rep->Capabilities->PTZ->XAddr);
+        }
+
+        log_level_val(1, "Extension: ",     log_pos, rep->Capabilities->Extension);
+        if (NULL != rep->Capabilities->Extension) {
+            log_level_val(2, "DeviceIO: ",  log_pos, rep->Capabilities->Extension->DeviceIO);
+            if (NULL != rep->Capabilities->Extension->DeviceIO) {
+                log_level_val(3, "XAddr: ", log_str, rep->Capabilities->Extension->DeviceIO->XAddr);
+            }
+
+            log_level_val(2, "Display: ",  log_pos, rep->Capabilities->Extension->Display);
+            if (NULL != rep->Capabilities->Extension->Display) {
+                log_level_val(3, "XAddr: ", log_str, rep->Capabilities->Extension->Display->XAddr);
+            }
+
+            log_level_val(2, "Recording: ",  log_pos, rep->Capabilities->Extension->Recording);
+            if (NULL != rep->Capabilities->Extension->Recording) {
+                log_level_val(3, "XAddr: ", log_str, rep->Capabilities->Extension->Recording->XAddr);
+            }
+            
+            log_level_val(2, "Search: ",  log_pos, rep->Capabilities->Extension->Search);
+            if (NULL != rep->Capabilities->Extension->Search) {
+                log_level_val(3, "XAddr: ", log_str, rep->Capabilities->Extension->Search->XAddr);
+            }
+
+            log_level_val(2, "Replay: ",  log_pos, rep->Capabilities->Extension->Replay);
+            if (NULL != rep->Capabilities->Extension->Replay) {
+                log_level_val(3, "XAddr: ", log_str, rep->Capabilities->Extension->Replay->XAddr);
+            }
+
+            log_level_val(2, "Receiver: ",  log_pos, rep->Capabilities->Extension->Receiver);
+            if (NULL != rep->Capabilities->Extension->Receiver) {
+                log_level_val(3, "XAddr: ", log_str, rep->Capabilities->Extension->Receiver->XAddr);
+            }
+
+            log_level_val(2, "AnalyticsDevice: ",  log_pos, rep->Capabilities->Extension->AnalyticsDevice);
+            if (NULL != rep->Capabilities->Extension->AnalyticsDevice) {
+                log_level_val(3, "XAddr: ", log_str, rep->Capabilities->Extension->AnalyticsDevice->XAddr);
+            }
+        }
+    }
+    log_func_out;
+}
+
+void dump_trt__GetProfilesResponse(struct _trt__GetProfilesResponse *rep)
+{
+    int i;
+
+    assert(NULL != rep);
+
+    log_func_in;
+
+    log_level_val(0, "sizeProfiles: ", log_int, &rep->__sizeProfiles);
+    log_level_val(0, "Profiles: ",     log_pos,  rep->Profiles);
+    for(i=0; i<rep->__sizeProfiles; i++) {
+        struct tt__Profile *profiles = &rep->Profiles[i];
+        log_level_fmt(1, "%d\n", i);
+        log_level_val(2, "Name: ",                     log_str,  profiles->Name);
+        log_level_val(2, "token: ",                    log_str,  profiles->token);
+        log_level_val(2, "fixed: ",                    log_bool, profiles->fixed);
+        log_level_val(2, "VideoSourceConfiguration: ", log_pos,  profiles->VideoSourceConfiguration);
+        if (NULL != profiles->VideoSourceConfiguration) {
+            struct tt__VideoSourceConfiguration *vsc = profiles->VideoSourceConfiguration;
+
+            log_level_val(3, "Name: ",        log_str,  vsc->Name);
+            log_level_val(3, "UseCount: ",    log_int, &vsc->UseCount);
+            log_level_val(3, "token: ",       log_str,  vsc->token);
+            log_level_val(3, "SourceToken: ", log_str,  vsc->SourceToken);
+            log_level_val(3, "Bounds: ",      log_pos,  vsc->Bounds);
+            if (NULL != vsc->Bounds) {
+                log_level_val(4, "x: ",       log_int, &vsc->Bounds->x);
+                log_level_val(4, "y: ",       log_int, &vsc->Bounds->y);
+                log_level_val(4, "width: ",   log_int, &vsc->Bounds->width);
+                log_level_val(4, "height: ",  log_int, &vsc->Bounds->height);
+            }
+        }
+        log_level_val(2, "VideoEncoderConfiguration: ", log_pos, profiles->VideoEncoderConfiguration);
+        if (NULL != profiles->VideoEncoderConfiguration) {
+            struct tt__VideoEncoderConfiguration *vec = profiles->VideoEncoderConfiguration;
+            log_level_val(3, "Name: ",       log_str,    vec->Name);
+            log_level_val(3, "UseCount: ",   log_int,   &vec->UseCount);
+            log_level_val(3, "token: ",      log_str,    vec->token);
+            log_level_val(3, "Encoding: ",   log_str,    dump_enum2str_VideoEncoding(vec->Encoding));
+            log_level_val(3, "Quality: ",    log_float, &vec->Quality);
+            log_level_val(3, "Resolution: ", log_pos,    vec->Resolution);
+            if (NULL != vec->Resolution) {
+                log_level_val(4, "Width: ",  log_int,   &vec->Resolution->Width);
+                log_level_val(4, "Height: ", log_int,   &vec->Resolution->Height);
+            }
+            log_level_val(3, "RateControl: ",log_pos,    vec->RateControl);
+            if (NULL !=  vec->RateControl) {
+                log_level_val(4, "FrameRateLimit: ",   log_int, &vec->RateControl->FrameRateLimit);
+                log_level_val(4, "EncodingInterval: ", log_int, &vec->RateControl->EncodingInterval);
+                log_level_val(4, "BitrateLimit: ",     log_int, &vec->RateControl->BitrateLimit);
+            }
+        }
+        log_level_val(2, "AudioSourceConfiguration: ", log_pos, profiles->AudioSourceConfiguration);
+        if (NULL != profiles->AudioSourceConfiguration) {
+            struct tt__AudioSourceConfiguration *asc = profiles->AudioSourceConfiguration;
+            log_level_val(3, "Name: ",        log_str,  asc->Name);
+            log_level_val(3, "UseCount: ",    log_int, &asc->UseCount);
+            log_level_val(3, "token: ",       log_str,  asc->token);
+            log_level_val(3, "SourceToken: ", log_str,  asc->SourceToken);
+        }
+        log_level_val(2, "AudioEncoderConfiguration: ", log_pos, profiles->AudioEncoderConfiguration);
+        if (NULL != profiles->AudioEncoderConfiguration) {
+            struct tt__AudioEncoderConfiguration *aec = profiles->AudioEncoderConfiguration;
+            log_level_val(3, "Name: ",       log_str,  aec->Name);
+            log_level_val(3, "UseCount: ",   log_int, &aec->UseCount);
+            log_level_val(3, "token: ",      log_str,  aec->token);
+            log_level_val(3, "Bitrate: ",    log_int, &aec->Bitrate);
+            log_level_val(3, "SampleRate: ", log_int, &aec->SampleRate);
+            log_level_val(3, "Encoding: ",   log_str,  dump_enum2str_AudioEncoding(aec->Encoding));
+        }
+
+    }
+    log_func_out;
+}
+
+void dump_trt__GetStreamUriResponse(struct _trt__GetStreamUriResponse *rep)
+{
+    assert(NULL != rep);
+    log_func_in;
+    log_level_val(0, "MediaUri: ", log_pos, rep->MediaUri);
+    if (NULL != rep->MediaUri) {
+        log_level_val(1, "Uri:                 ", log_str,    rep->MediaUri->Uri);
+        log_level_val(1, "InvalidAfterConnect: ", log_bool,  &rep->MediaUri->InvalidAfterConnect);
+        log_level_val(1, "InvalidAfterReboot:  ", log_bool,  &rep->MediaUri->InvalidAfterReboot);
+        log_level_val(1, "Timeout:             ", log_int64, &rep->MediaUri->Timeout);
     }
     log_func_out;
 }

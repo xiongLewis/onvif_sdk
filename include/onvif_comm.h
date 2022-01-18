@@ -40,11 +40,15 @@ extern "C" {
         } \
     } while (0)
 
+#define ONVIF_ADDRESS_SIZE   (128)                                              // URI地址长度
+#define ONVIF_TOKEN_SIZE     (65)                                               // token长度
+
 void* ONVIF_soap_malloc(struct soap *soap, unsigned int n);
 struct soap *ONVIF_soap_new(int timeout);
 void ONVIF_soap_delete(struct soap *soap);
 
 int ONVIF_SetAuthInfo(struct soap *soap, const char *username, const char *password);
+int ONVIF_MakeUriWithAuth(char *src_uri, char *username, char *password, char *dest_uri, unsigned int size_dest_uri);
 
 #ifdef __cplusplus
 }
