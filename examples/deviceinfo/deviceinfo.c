@@ -12,7 +12,7 @@
 #include "onvif_comm.h"
 
 #define USERNAME        "admin"                                                 // 认证信息（用户名、密码）
-#define PASSWORD        "admin123"
+#define PASSWORD        "admin"
 
 /************************************************************************
 **函数：ONVIF_GetDeviceInformation
@@ -57,7 +57,7 @@ EXIT:
 
 int main(int argc, char **argv)
 {
-    ONVIF_GetDeviceInformation("http://192.168.151.165/onvif/device_service");
+    ONVIF_GetDeviceInformation("http://192.168.151.166/onvif/device_service");
 
     return 0;
 }

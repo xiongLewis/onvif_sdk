@@ -15,30 +15,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../include
 					${CMAKE_CURRENT_SOURCE_DIR}/../../soap_framework/include)
 
 SET(SRC_LIST capabilities.c
-			../../soap_framework/src/soapC_1.c
-			../../soap_framework/src/soapC_2.c
-			../../soap_framework/src/soapC_3.c
-			../../soap_framework/src/soapC_4.c
-			../../soap_framework/src/soapC_5.c
-			../../soap_framework/src/soapC_6.c
-			../../soap_framework/src/soapC_7.c
-			../../soap_framework/src/soapC_8.c
-			../../soap_framework/src/soapC_9.c
-			../../soap_framework/src/soapC_10.c
-			../../soap_framework/src/soapC_11.c
-			../../soap_framework/src/soapC_12.c
-			../../soap_framework/src/soapC_13.c
-			../../soap_framework/src/soapC_14.c
-			../../soap_framework/src/soapC_15.c
-			../../soap_framework/src/soapC_16.c
-			../../soap_framework/src/soapC_17.c
-			../../soap_framework/src/soapC_18.c
-			../../soap_framework/src/soapC_19.c
-			../../soap_framework/src/soapC_20.c
-			../../soap_framework/src/soapC_21.c
-			../../soap_framework/src/soapC_22.c
-			../../soap_framework/src/soapC_23.c
-			../../soap_framework/src/soapC_24.c
+			../../soap_framework/src/soapC.c
 			../../soap_framework/src/soapClient.c
 			../../soap_framework/src/stdsoap2.c
 			../../soap_framework/src/struct_timeval.c
